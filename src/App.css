@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import "tailwindcss";
+
+/* Font Weight Utilities */
+.lexend-extralight  { font-weight: 200; }   /* Extra Light */
+.lexend-light       { font-weight: 300; }   /* Light */
+.lexend-normal      { font-weight: 400; }   /* Normal */
+.lexend-medium      { font-weight: 500; }   /* Medium */
+.lexend-semibold    { font-weight: 600; }   /* Semi Bold */
+.lexend-bold        { font-weight: 700; }   /* Bold */
+.lexend-extrabold   { font-weight: 800; }   /* Extra Bold */
+.lexend-black       { font-weight: 900; }   /* Black */
+.lexend-thin        { font-weight: 100; }   /* Thin */
+
+/* Optional: Apply Lexend font globally */
+body {
+  font-family: 'Lexend', sans-serif;
+}
+/* App.css or global styles */
+/* Minimal glow effect */
+.glow-white {
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+}
+
+.glow-cyan {
+  text-shadow: 0 0 4px rgba(34, 211, 238, 0.5);
+}
+html {
+  scroll-behavior: smooth;
+}
+
