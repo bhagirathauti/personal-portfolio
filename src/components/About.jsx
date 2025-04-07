@@ -39,7 +39,7 @@ const About = () => {
                     </h2>
 
                     <div className="pt-6">
-                        <a href="#contact">
+                        <a href="#projects">
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
                             >
