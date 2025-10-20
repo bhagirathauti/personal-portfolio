@@ -24,32 +24,38 @@ const Experience = () => {
 
   const experiences = [
     {
-      company: "MORGAN STANLEY",
-      role: "ANGULAR + .NET DEVELOPER",
-      period: "JUL 2024 - PRESENT",
-      description: "Working as a full-stack developer with Angular and .NET technologies, creating robust financial applications and services.",
-      tech: ["Angular", ".NET Core", "TypeScript", "C#", "SQL Server"]
+      company: "Aspivision Solutions",
+      role: "Software Engineer Intern",
+      period: "June 2023 - June 2024",
+      description: `Developed and maintained 10+ full-stack applications using HTML, CSS, JavaScript, React.js, Node.js, and .NET. Collaborated effectively with a remote team of 10+ members to deliver high-quality software solutions. Optimized application performance and implemented responsive UI components for improved user experience.`,
+      tech: ["React", "Node.js", ".NET", "HTML", "CSS", "JavaScript"]
     },
     {
-      company: "IIC-MITADT",
-      role: "TECHNICAL TEAM ASSOCIATE",
-      period: "JAN 2024 - PRESENT",
-      description: "Collaborating with the technical team to build innovative solutions and support various projects within the institution.",
-      tech: ["React", "Node.js", "MongoDB", "JavaScript"]
+      company: "Morgan Stanley",
+      role: "Analyst",
+      period: "July 2024 - July 2025",
+      description: `Worked remotely on enterprise-level applications built with React, .NET, Node.js, and Java. Contributed as part of a large team of 50+ members to implement scalable and efficient software solutions. Assisted in designing and integrating new features while maintaining code quality and adherence to best practices.`,
+      tech: ["React", ".NET", "Node.js", "Java"]
+    },
+    {
+      company: "Cognivra Technologies",
+      role: "Software Engineer Intern",
+      period: "August 2025 - Present",
+      description: `Currently working on developing and maintaining React, Node.js, and Java applications. Focused on building efficient, scalable, and user-friendly web solutions for enterprise clients. Collaborating with cross-functional teams to deliver feature-rich applications and troubleshoot technical issues.`,
+      tech: ["React", "Node.js", "Java"]
     }
   ];
 
   return (
-    <section id="experience" className="min-h-screen py-24 px-4 relative overflow-hidden">
+    <section id="experience" className="min-h-screen py-24 px-4 relative overflow-hidden bg-white dark:bg-transparent transition-colors duration-300">
       <div className="container mx-auto relative z-10">
         {/* Section Title */}
         <div className="mb-16 text-center">
-        <h2 className="text-4xl font-bold mb-4 text-white relative inline-block">
-            <span className="relative z-10">Professional Summary</span>
-            <span className="absolute bottom-0 left-0 w-full h-3 bg-cyan-100 opacity-20 rounded"></span>
+        <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white relative inline-block">
+            <span className="relative z-10">Work Experience</span>
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-cyan-100 max-w-2xl mx-auto">My experience from where I have built myself.</p>
+          
         </div>
 
         {/* Diagonal Timeline Container */}
@@ -77,29 +83,29 @@ const Experience = () => {
                 </div>
                 
                 {/* Content card - position alternating on desktop */}
-                <div className={`bg-transparent hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm shadow-md rounded-2xl p-8 shadow-xl border-[2px] border-blue-500/10 ml-22 md:ml-0 md:w-5/6 ${
+                <div className={`bg-gray-50 dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm shadow-md rounded-2xl p-8 shadow-xl border-[2px] border-blue-500/10 ml-22 md:ml-0 md:w-5/6 ${
                   index % 2 === 0 
                     ? "md:ml-auto md:mr-16" 
                     : "md:ml-16"
                 }`}>
                   {/* Company and role */}
                   <div className="flex flex-col mb-4">
-                    <h3 className="text-2xl font-bold text-white mb-2">{exp.company}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{exp.company}</h3>
                     <div className="inline-flex items-center">
                       <div className="w-2 h-6 bg-blue-500 rounded-full mr-3"></div>
-                      <h4 className="text-lg font-semibold text-blue-200">{exp.role}</h4>
+                      <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-200">{exp.role}</h4>
                     </div>
                   </div>
                   
                   {/* Description */}
-                  <p className="text-gray-300 mb-6">{exp.description}</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">{exp.description}</p>
                   
                   {/* Tech stack pills */}
                   <div className="flex flex-wrap gap-2">
                     {exp.tech.map((tech, i) => (
                       <span 
                         key={i} 
-                        className="px-3 py-1 rounded-full text-sm bg-blue-500/10 text-blue-300 border border-blue-500/20"
+                        className="px-3 py-1 rounded-full text-sm bg-blue-500/10 text-blue-600 dark:text-blue-300 border border-blue-500/20"
                       >
                         {tech}
                       </span>

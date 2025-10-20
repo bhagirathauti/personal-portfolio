@@ -1,242 +1,86 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
-const ProjectCube = () => {
-  const [currentFace, setCurrentFace] = useState(0);
-  const [startX, setStartX] = useState(0);
-  const [isSwiping, setIsSwiping] = useState(false);
-  const cubeRef = useRef(null);
-
-  // Sample project data
+const Projects = () => {
   const projects = [
     {
       id: 1,
-      name: "Aspivision Solutions",
-      image: "./aspivisionsolutions.png",
-      link: "https://aspivision.in",
-      description: [
-        "Tech Stack: React.js, Tailwindcss, Email.js.",
-        "Professional website for Aspivision Solutions.",
-        "Shows services, portfolio, contacts,etc about Aspivsion Solutions."
-      ]
+      name: 'Aspivision Solutions',
+      image: './aspivisionsolutions.png',
+      link: 'https://aspivision.in',
+      short: 'Professional website for Aspivision Solutions built with React and TailwindCSS.',
+      tech: ['React', 'TailwindCSS', 'Email.js']
     },
     {
       id: 2,
-      name: "GNR Recycle",
-      image: "./gnrrecycle.png",
-      link: "https://gnrrecycle.com",
-      description: [
-        "Tech Stack: React.js, Tailwindcss, Google Sheets API.",
-        "Professional website for GNR Recycling India.",
-        "Added Google Sheets API to store data from the contact us form."
-      ]
+      name: 'GNR Recycle',
+      image: './gnrrecycle.png',
+      link: 'https://gnrrecycle.com',
+      short: 'Corporate website for GNR Recycling India with Google Sheets integration for contact forms.',
+      tech: ['React', 'TailwindCSS', 'Google Sheets API']
     },
     {
       id: 3,
-      name: "Mobikoo.com",
-      image: "./mobikoo.png",
-      link: "https://mobikoo.com",
-      description: [
-        "Tech Stack: MongoDB, Express.js, React.js, Node.js, AWS, Cashfree.",
-        "Full stack website for a Insurance company.",
-        "Implemented Payment Gateway."
-      ]
-    },
-    {
-      id: 4,
-      name: "Aspivision Solutions",
-      image: "./aspivisionsolutions.png",
-      link: "https://aspivision.in",
-      description: [
-        "Tech Stack: React.js, Tailwindcss, Email.js.",
-        "Professional website for Aspivision Solutions.",
-        "Shows services, portfolio, contacts,etc about Aspivsion Solutions."
-      ]
-    },
-    {
-      id: 5,
-      name: "GNR Recycle",
-      image: "./gnrrecycle.png",
-      link: "https://gnrrecycle.com",
-      description: [
-        "Tech Stack: React.js, Tailwindcss, Google Sheets API.",
-        "Professional website for GNR Recycling India.",
-        "Added Google Sheets API to store data from the contact us form."
-      ]
-    },
-    {
-      id: 6,
-      name: "Mobikoo.com",
-      image: "./mobikoo.png",
-      link: "https://mobikoo.com",
-      description: [
-        "Tech Stack: MongoDB, Express.js, React.js, Node.js, AWS, Cashfree.",
-        "Full stack website for a Insurance company.",
-        "Implemented Payment Gateway."
-      ]
+      name: 'Mobikoo.com',
+      image: './mobikoo.png',
+      link: 'https://mobikoo.com',
+      short: 'Full-stack insurance portal (MERN) with payment gateway integration (Cashfree).',
+      tech: ['MongoDB', 'Express', 'React', 'Node', 'AWS', 'Cashfree']
     }
   ];
 
-  // Electric blue color for Tailwind custom styles
-  const electricBlue = "#00BFFF";
-
-  // Handle next/previous face navigation
-  const navigateCube = (direction) => {
-    const totalFaces = 6;
-    if (direction === 'next') {
-      setCurrentFace((prev) => (prev + 1) % totalFaces);
-    } else {
-      setCurrentFace((prev) => (prev - 1 + totalFaces) % totalFaces);
-    }
-  };
-
-  // Handle touch events for mobile swipe
-  const handleTouchStart = (e) => {
-    setStartX(e.touches[0].clientX);
-    setIsSwiping(true);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isSwiping) return;
-    
-    const currentX = e.touches[0].clientX;
-    const diff = startX - currentX;
-    
-    if (Math.abs(diff) > 50) {
-      setIsSwiping(false);
-      if (diff > 0) {
-        navigateCube('next');
-      } else {
-        navigateCube('prev');
-      }
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setIsSwiping(false);
-  };
-
-  // Get transform for current face
-  const getCubeTransform = () => {
-    switch (currentFace) {
-      case 0: return 'rotateY(0deg)';
-      case 1: return 'rotateY(-90deg)';
-      case 2: return 'rotateY(-180deg)';
-      case 3: return 'rotateY(-270deg)';
-      case 4: return 'rotateX(-90deg)';
-      case 5: return 'rotateX(90deg)';
-      default: return 'rotateY(0deg)';
-    }
-  };
-
   return (
-    <section id="projects" className="py-16 bg-transparent rounded-xl">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <h2 className="text-4xl font-bold mb-4 text-white relative inline-block">
-            <span className="relative z-10">My Projects</span>
-            <span className="absolute bottom-0 left-0 w-full h-3 bg-cyan-100 opacity-20 rounded"></span>
-          </h2>
-          <div className="w-24 h-1 bg-blue-500 mx-auto rounded-full mb-6"></div>
-          <p className="text-cyan-100 max-w-2xl mx-auto">My academic journey and qualifications that have shaped my professional path.</p>
+    <section id="projects" className="py-16 bg-gray-50 dark:bg-transparent rounded-xl transition-colors duration-300">
+  <div className="max-w-7xl mx-auto px-4">
+        <div className="mb-8 text-center">
+          <h2 className="text-4xl font-bold mb-3 text-gray-900 dark:text-white inline-block">My Projects</h2>
+          <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full mb-4" />
+          <p className="text-gray-700 dark:text-cyan-100 max-w-2xl mx-auto">A selection of projects I built — websites and full-stack apps showcasing frontend and backend work.</p>
         </div>
 
-        <div className="flex flex-col items-center mx-10">
-        {/* 3D Cube Container */}
-        <div 
-          className="w-full max-w-md h-96 relative perspective-1000 my-8 mx-10"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div 
-            ref={cubeRef}
-            className="w-full h-full relative transform-style-3d transition-transform duration-700"
-            style={{ transform: getCubeTransform() }}
-          >
-            {projects.map((project, index) => (
-              <div 
-                key={project.id}
-                className="absolute w-full h-full p-6 rounded-lg shadow-xl border-[2px] shadow-md hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm shadow-md border-blue-500/20 flex flex-col backface-hidden"
-                style={{ 
-                  transform: index === 0 ? 'rotateY(0deg) translateZ(12rem)' :
-                            index === 1 ? 'rotateY(90deg) translateZ(12rem)' :
-                            index === 2 ? 'rotateY(180deg) translateZ(12rem)' :
-                            index === 3 ? 'rotateY(270deg) translateZ(12rem)' :
-                            index === 4 ? 'rotateX(90deg) translateZ(12rem)' :
-                            'rotateX(-90deg) translateZ(12rem)'
-                }}
-              >
-                <img 
-                  src={project.image} 
-                  alt={project.name} 
-                  className="w-full h-40 object-cover rounded-lg mb-4" 
-                />
-                <h3 className="text-2xl font-bold text-blue-500  mb-2">
-                  {project.name}
-                </h3>
-                <a 
-                  href={project.link} 
-                  target="_blank"
-                  rel="noopener noreferrer" 
-                  className="text-sm mb-4 text-blue-500 underline"
-                >
-                  View Project
-                </a>
-                <ul className="list-disc pl-5 mb-4 text-sm text-cyan-100">
-                  {project.description.map((item, i) => (
-                    <li key={i} className="mb-1">{item}</li>
-                  ))}
-                </ul>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {projects.map((p) => (
+            <article
+              key={p.id}
+              className="relative bg-white dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 border-[2px] border-blue-500/10 p-3 sm:p-6 rounded-xl hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 group overflow-hidden"
+            >
+              <div className="h-40 w-full overflow-hidden rounded-t-lg">
+                <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="pt-4">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{p.name}</h3>
+                <p className="text-sm text-gray-600 dark:text-cyan-100 mb-3">{p.short}</p>
 
-        {/* Navigation Controls */}
-        <div className="flex justify-center gap-4 mt-8">
-          <button 
-            onClick={() => navigateCube('prev')}
-            className="px-6 py-2 rounded-full shadow-md text-blue-500 border-blue-500 transition-colors duration-300 hover:bg-blue-100"
-            style={{ backgroundColor: 'white', borderWidth: '2px' }}
-          >
-            Previous
-          </button>
-          <button 
-            onClick={() => navigateCube('next')}
-            className="px-6 py-2 rounded-full shadow-md bg-blue-500 text-white transition-colors duration-300 hover:bg-blue-400"
-          >
-            Next
-          </button>
-        </div>
+                <div className="flex flex-wrap mb-4">
+                  {p.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs mr-2 mb-2 px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-800 text-gray-800 dark:text-gray-200"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
 
-        {/* Current Project Indicator */}
-        <div className="flex justify-center gap-2 mt-6">
-          {projects.map((_, index) => (
-            <div 
-              key={index}
-              className={`w-3 h-3 rounded-full transition-colors duration-300 ${currentFace === index ? 'bg-blue-500' : 'bg-gray-300'}`}
-              style={{ backgroundColor: currentFace === index ? electricBlue : undefined }}
-            />
+                <div className="flex items-center gap-3">
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500 text-white text-sm hover:bg-blue-400 transition-colors"
+                  >
+                    Visit
+                  </a>
+                </div>
+
+                <div className="absolute -right-12 -top-12 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-all duration-300" />
+                <div className="absolute -left-16 -bottom-16 w-28 h-28 rounded-full bg-blue-500/5 group-hover:bg-blue-500/10 transition-all duration-500" />
+              </div>
+            </article>
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-        .transform-style-3d {
-          transform-style: preserve-3d;
-        }
-        .backface-hidden {
-          backface-visibility: hidden;
-        }
-      `}</style>
-
-        </div>
-        </section>
+    </section>
   );
 };
 
-export default ProjectCube;
+export default Projects;

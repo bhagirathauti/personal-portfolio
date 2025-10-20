@@ -1,7 +1,18 @@
-import React from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ChevronDown, Github, Linkedin, Instagram, Code } from "lucide-react";
 
 const About = () => {
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const scrollToNextSection = () => {
         // Scroll to the next section smoothly
         window.scrollBy({
@@ -11,40 +22,85 @@ const About = () => {
     };
 
     return (
-        <section id="about" className="relative min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 md:py-24  overflow-hidden pt-24">
-            {/* Added extra top padding (pt-24) to account for navbar above */}
-            <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-20">
-                {/* Image container */}
-                <div className="w-full md:w-2/5 flex justify-center items-center">
-                    <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-[0_0_30px_10px_rgba(59,130,246,0.3)] transition-all duration-500 hover:shadow-[0_0_40px_15px_rgba(59,130,246,0.5)]">
-                        <img
-                            src="./aboutimg.png"
-                            alt="Bhagirath Auti"
-                            className="w-full h-full object-cover object-top"
-                        />
-                    </div>
-                </div>
-
+        <section id="about" className="relative min-h-screen w-full flex flex-col items-center justify-center px-4 py-16 md:py-24 overflow-hidden pt-24">
+            {/* Parallax Background Image */}
+            <div 
+                className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat z-0"
+                style={{
+                    backgroundImage: "url('./aboutimg.jpg')",
+                    transform: `translateY(${scrollY * 0.5}px)`,
+                    transition: 'transform 0.1s ease-out'
+                }}
+            />
+            
+            {/* Black Overlay */}
+            <div className="absolute inset-0 w-full h-full bg-black/70 dark:bg-black/80 z-10" />
+            
+            {/* Content - positioned above overlay */}
+            <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-20 relative z-20">
                 {/* Text content */}
-                <div className="w-full md:w-3/5 flex flex-col justify-center items-center md:items-start space-y-6 text-center md:text-left">
-                    <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-5xl text-blue-500 font-extrabold tracking-tight">
+                <div className="w-full flex flex-col justify-center items-center space-y-6 text-center">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-extrabold tracking-tight drop-shadow-2xl">
                         <span className="inline-block relative">
                             Bhagirath Auti
-                            <span className="absolute -bottom-1 left-0 w-full h-1 bg-blue-500 rounded"></span>
+                            <span className="absolute -bottom-2 left-0 w-full h-2 bg-blue-500 rounded"></span>
                         </span>
                     </h1>
 
-                    <h2 className="text-lg md:text-xl lg:text-2xl text-cyan-100 font-medium leading-relaxed max-w-2xl">
-                        MERN stack developer passionate about building efficient, user-friendly applications. Detail-oriented, creative, and always eager to learn and innovate with clean code and modern UI experiences.
+                    <h2 className="text-base md:text-lg lg:text-xl text-gray-200 font-medium leading-relaxed max-w-2xl drop-shadow-lg">
+                        I’m a Full Stack Developer with 2.5 years of experience working with startups and MNCs. I build efficient, scalable web applications and enjoy delivering user-friendly solutions while continuously learning and adapting to new technologies.
                     </h2>
 
-                    <div className="pt-6">
+                    <div className="pt-6 flex flex-col items-center space-y-4 gap-5">
+                        
+                        {/* Social icon links */}
+                        <div className="flex items-center justify-center gap-4 mt-4">
+                            <a
+                                href="https://leetcode.com/u/bhagirathauti/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="LeetCode"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                <Code size={30} />
+                            </a>
+
+                            <a
+                                href="https://www.instagram.com/bhagirathauti"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Instagram"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                <Instagram size={30} />
+                            </a>
+
+                            <a
+                                href="https://www.linkedin.com/in/bhagirathauti/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="LinkedIn"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                <Linkedin size={30} />
+                            </a>
+
+                            <a
+                                href="https://github.com/bhagirathauti"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="GitHub"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            >
+                                <Github size={30} />
+                            </a>
+                        </div>
                         <a href="#contact">
                             <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/40 flex items-center gap-2"
                             >
                                 View My Work
-                                <ChevronDown size={20} />
+                                <ChevronDown size={24} />
                             </button>
                         </a>
 
@@ -55,12 +111,12 @@ const About = () => {
             {/* Scroll down button */}
             <button
                 onClick={scrollToNextSection}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10"
                 aria-label="Scroll to next section"
             >
                 <div className="flex flex-col items-center gap-2">
-                    <span className="text-cyan-100 text-sm font-medium">Scroll Down</span>
-                    <div className="bg-blue-500 p-3 rounded-full shadow-lg shadow-blue-500/30">
+                    <span className="text-gray-200 text-sm font-medium drop-shadow-lg">Scroll Down</span>
+                    <div className="bg-blue-500 p-3 rounded-full shadow-lg shadow-blue-500/50">
                         <ChevronDown size={24} className="text-white" />
                     </div>
                 </div>

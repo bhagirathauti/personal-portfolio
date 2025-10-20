@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
 @import "tailwindcss";
 
+/* Tailwind v4 Dark Mode Configuration */
+@variant dark (.dark &);
+
 /* Font Weight Utilities */
 .lexend-extralight  { font-weight: 200; }   /* Extra Light */
 .lexend-light       { font-weight: 300; }   /* Light */
