@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Contact = () => {
   const form = useRef();
@@ -19,48 +18,67 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const [sending, setSending] = useState(false);
 
-    // Basic runtime validation to avoid sending bad requests and help debugging.
-    if (!serviceId || !templateId || !publicKey) {
-      const missing = [!serviceId && 'SERVICE_ID', !templateId && 'TEMPLATE_ID', !publicKey && 'PUBLIC_KEY'].filter(Boolean);
-      const msg = `EmailJS env var(s) missing: ${missing.join(', ')}. Ensure VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY are set at build time.`;
-      console.error(msg);
-      // show friendly message to user
-      alert('Contact form is not configured correctly. Please try again later.');
-      setFormData((s) => ({ ...s }));
+  // Toast system
+  const [toasts, setToasts] = useState([]);
+  useEffect(() => {
+    const tid = setInterval(() => setToasts(t => t.filter(x => Date.now() - x.ts < 8000)), 3000);
+    return () => clearInterval(tid);
+  }, []);
+  const pushToast = ({ type = 'info', title = '', message = '', ttl = 6000 }) => {
+    const id = Math.random().toString(36).slice(2, 9);
+    const ts = Date.now();
+    setToasts(t => [{ id, ts, type, title, message }, ...t]);
+    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), ttl);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // basic validation
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.reason) {
+      pushToast({ type: 'warning', title: 'Missing fields', message: 'Please fill all required fields.' });
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      pushToast({ type: 'warning', title: 'Invalid email', message: 'Please enter a valid email address.' });
       return;
     }
 
-    // Masked debug (non-sensitive) to help verify values are present in client bundle
-    try {
-      const mask = (v) => (typeof v === 'string' && v.length > 6 ? `${v.slice(0,3)}...${v.slice(-3)}` : v);
-      console.debug('EmailJS config', { serviceId: mask(serviceId), templateId: mask(templateId), publicKey: mask(publicKey) });
-    } catch (err) {
-      // ignore
-    }
+    setSending(true);
 
-    emailjs.sendForm(serviceId, templateId, form.current, publicKey)
-      .then(
-        () => {
-          alert('Thank you for contacting me!');
-          setFormData({
-            firstName: '',
-            lastName: '',
-            mobile: '',
-            email: '',
-            reason: ''
-          });
-        },
-        (error) => {
-          console.error('EmailJS error:', error && error.text ? error.text : error);
-          alert('Something went wrong. Please try again.');
-        }
-      );
+    const payload = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      message: `Mobile: ${formData.mobile || 'N/A'}\n\nMessage:\n${formData.reason}`
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const ct = res.headers.get('Content-Type') || '';
+      const data = ct.includes('application/json') ? await res.json() : { ok: res.ok, error: await res.text() };
+
+      if (!res.ok) {
+        console.error('/api/contact failed', data);
+        pushToast({ type: 'error', title: 'Send failed', message: data.error || 'Server error' });
+        setSending(false);
+        return;
+      }
+
+      pushToast({ type: 'success', title: 'Message sent', message: 'Thanks — I will get back to you soon.' });
+      setFormData({ firstName: '', lastName: '', mobile: '', email: '', reason: '' });
+      setSending(false);
+    } catch (err) {
+      console.error('Contact submit error', err);
+      pushToast({ type: 'error', title: 'Network error', message: 'Could not send message. Try again later.' });
+      setSending(false);
+    }
   };
 
   return (
@@ -126,9 +144,23 @@ const Contact = () => {
               required
               className="w-full p-3 rounded bg-white dark:bg-transparent text-gray-900 dark:text-blue-500 border-[2px] border-blue-500/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             ></textarea>
-            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded transition duration-300">Submit</button>
+            <button type="submit" disabled={sending} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded transition duration-300 disabled:opacity-60">{sending ? 'Sending…' : 'Submit'}</button>
           </form>
         </div>
+      </div>
+      {/* Toasts */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+        {toasts.map(t => (
+          <div key={t.id} className={`max-w-sm w-full px-4 py-3 rounded-lg shadow-lg text-sm text-left border ${t.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : t.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' : 'bg-yellow-50 border-yellow-200 text-yellow-800'}`}>
+            <div className="flex justify-between items-start gap-2">
+              <div>
+                {t.title && <div className="font-semibold">{t.title}</div>}
+                {t.message && <div className="mt-1">{t.message}</div>}
+              </div>
+              <button className="text-xs opacity-60" onClick={() => setToasts(ts => ts.filter(x => x.id !== t.id))}>Close</button>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
