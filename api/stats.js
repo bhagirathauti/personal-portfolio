@@ -37,7 +37,7 @@ async function handleRequest(login) {
 }
 
 // Vercel / standard Node handler
-export default async function handler(req, res) {
+export default async function (req, res) {
   const login = (req.query && req.query.login) || process.env.GITHUB_USER || 'bhagirathauti';
   try {
     const result = await handleRequest(login);
