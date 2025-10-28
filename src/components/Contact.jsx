@@ -21,9 +21,30 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-    emailjs.sendForm(import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID, form.current, import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+    // Basic runtime validation to avoid sending bad requests and help debugging.
+    if (!serviceId || !templateId || !publicKey) {
+      const missing = [!serviceId && 'SERVICE_ID', !templateId && 'TEMPLATE_ID', !publicKey && 'PUBLIC_KEY'].filter(Boolean);
+      const msg = `EmailJS env var(s) missing: ${missing.join(', ')}. Ensure VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY are set at build time.`;
+      console.error(msg);
+      // show friendly message to user
+      alert('Contact form is not configured correctly. Please try again later.');
+      setFormData((s) => ({ ...s }));
+      return;
+    }
+
+    // Masked debug (non-sensitive) to help verify values are present in client bundle
+    try {
+      const mask = (v) => (typeof v === 'string' && v.length > 6 ? `${v.slice(0,3)}...${v.slice(-3)}` : v);
+      console.debug('EmailJS config', { serviceId: mask(serviceId), templateId: mask(templateId), publicKey: mask(publicKey) });
+    } catch (err) {
+      // ignore
+    }
+
+    emailjs.sendForm(serviceId, templateId, form.current, publicKey)
       .then(
         () => {
           alert('Thank you for contacting me!');
@@ -36,7 +57,7 @@ const Contact = () => {
           });
         },
         (error) => {
-          console.error('EmailJS error:', error.text);
+          console.error('EmailJS error:', error && error.text ? error.text : error);
           alert('Something went wrong. Please try again.');
         }
       );
