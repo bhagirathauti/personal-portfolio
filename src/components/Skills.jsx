@@ -78,11 +78,23 @@ const Skills = () => {
     window.addEventListener("scroll", handleScroll);
     handleScroll();
 
-    const checkMobile = () => setIsMobile(typeof window !== 'undefined' && window.innerWidth < 640);
+    const checkMobile = () => {
+      const mobile = typeof window !== 'undefined' && window.innerWidth < 640;
+      setIsMobile(mobile);
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
+
+  // When on mobile, always show all skills (hide tabs) and ensure activeCategory is 'all'
+  useEffect(() => {
+    if (isMobile && activeCategory !== 'all') setActiveCategory('all');
+  }, [isMobile]);
 
   useInjectGlobalCss(globalCssForAnimation);
 

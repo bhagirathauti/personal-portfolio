@@ -30,7 +30,21 @@ const Stats = () => {
 
     // Fetch GitHub summary via serverless endpoint to avoid exposing PAT in client bundle
     fetch(`/api/stats?login=${encodeURIComponent(GITHUB_USERNAME)}`)
-      .then((r) => r.json())
+      .then(async (r) => {
+        const ct = r.headers.get('content-type') || '';
+        if (!r.ok) {
+          // Try to read body text for diagnostics
+          const text = await r.text().catch(() => '<unreadable body>');
+          console.error('Non-OK response from /api/stats', r.status, text);
+          throw new Error(`Server returned ${r.status}: ${text.slice(0, 200)}`);
+        }
+        if (!ct.includes('application/json')) {
+          const text = await r.text().catch(() => '<unreadable body>');
+          console.error('Non-JSON response from /api/stats:', text.slice(0, 200));
+          throw new Error(`Unexpected non-JSON response from server: ${text.slice(0, 200)}`);
+        }
+        return r.json();
+      })
       .then((payload) => {
         if (!mounted) return;
         if (payload.error) {
@@ -43,7 +57,7 @@ const Stats = () => {
       .catch((err) => {
         if (!mounted) return;
         console.error('GitHub fetch error', err);
-        setError((e) => (e ? e + '\nGitHub fetch failed' : 'GitHub fetch failed'));
+        setError((e) => (e ? e + '\nGitHub fetch failed: ' + err.message : 'GitHub fetch failed: ' + err.message));
       });
   }, []);
 
