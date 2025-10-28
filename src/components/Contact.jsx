@@ -115,7 +115,7 @@ const Contact = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-3 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-blue-500 border-[2px] border-blue-500/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 rounded bg-white dark:bg-transparent text-gray-900 dark:text-blue-500 border-[2px] border-blue-500/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <textarea
               name="reason"
