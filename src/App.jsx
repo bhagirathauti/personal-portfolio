@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import { ToastProvider } from './contexts/ToastContext'
 import Navbar from './components/Navbar'
 import About from './components/About'
 import EducationTimeline from './components/Education'
@@ -13,7 +14,7 @@ import ScrollToTopButton from './components/ScrollToTop'
 
 function App() {
   return (
-    <>
+    <ToastProvider>
       {/* Navbar moved outside main background wrapper to avoid stacking context issues */}
       <Navbar />
 
@@ -29,7 +30,7 @@ function App() {
         <Footer/>
         <ScrollToTopButton/>
       </div>
-    </>
+    </ToastProvider>
   )
 }
 

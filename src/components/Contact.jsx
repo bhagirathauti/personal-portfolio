@@ -1,9 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from 'react';
+import { useToast } from '../contexts/ToastContext';
 
 const Contact = () => {
-  const form = useRef();
+  // form ref removed — we submit via fetch and don't need direct DOM access
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,28 +21,18 @@ const Contact = () => {
 
   const [sending, setSending] = useState(false);
 
-  // use react-toastify for notifications
+  const toast = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.reason) {
-      if (typeof toast !== 'undefined' && typeof toast.warn === 'function') {
-        toast.warn('Please fill all required fields.', { position: 'bottom-right' });
-      } else {
-        console.warn('react-toastify missing — falling back to alert for missing fields');
-        alert('Please fill all required fields.');
-      }
+      toast.warn('Please fill all required fields.');
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      if (typeof toast !== 'undefined' && typeof toast.warn === 'function') {
-        toast.warn('Please enter a valid email address.', { position: 'bottom-right' });
-      } else {
-        console.warn('react-toastify missing — falling back to alert for invalid email');
-        alert('Please enter a valid email address.');
-      }
+      toast.warn('Please enter a valid email address.');
       return;
     }
 
@@ -67,32 +56,17 @@ const Contact = () => {
 
       if (!res.ok) {
         console.error('/api/contact failed', data);
-        if (typeof toast !== 'undefined' && typeof toast.error === 'function') {
-          toast.error(data.error || 'Server error', { position: 'bottom-right' });
-        } else {
-          console.warn('react-toastify missing — falling back to alert for server error');
-          alert(data.error || 'Server error');
-        }
+        toast.error(data.error || 'Server error');
         setSending(false);
         return;
       }
 
-      if (typeof toast !== 'undefined' && typeof toast.success === 'function') {
-        toast.success('Thanks — I will get back to you soon.', { position: 'bottom-right' });
-      } else {
-        console.warn('react-toastify missing — falling back to alert for success');
-        alert('Thanks — I will get back to you soon.');
-      }
+      toast.success('Thanks — I will get back to you soon.');
       setFormData({ firstName: '', lastName: '', mobile: '', email: '', reason: '' });
       setSending(false);
     } catch (err) {
       console.error('Contact submit error', err);
-      if (typeof toast !== 'undefined' && typeof toast.error === 'function') {
-        toast.error('Could not send message. Try again later.', { position: 'bottom-right' });
-      } else {
-        console.warn('react-toastify missing — falling back to alert for network error');
-        alert('Could not send message. Try again later.');
-      }
+      toast.error('Could not send message. Try again later.');
       setSending(false);
     }
   };
@@ -164,8 +138,7 @@ const Contact = () => {
           </form>
         </div>
       </div>
-      {/* React-Toastify container */}
-      <ToastContainer position="bottom-right" autoClose={6000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      {/* Toasts rendered by ToastProvider */}
     </section>
   );
 };
