@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
   const form = useRef();
@@ -20,29 +22,18 @@ const Contact = () => {
 
   const [sending, setSending] = useState(false);
 
-  // Toast system
-  const [toasts, setToasts] = useState([]);
-  useEffect(() => {
-    const tid = setInterval(() => setToasts(t => t.filter(x => Date.now() - x.ts < 8000)), 3000);
-    return () => clearInterval(tid);
-  }, []);
-  const pushToast = ({ type = 'info', title = '', message = '', ttl = 6000 }) => {
-    const id = Math.random().toString(36).slice(2, 9);
-    const ts = Date.now();
-    setToasts(t => [{ id, ts, type, title, message }, ...t]);
-    setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), ttl);
-  };
+  // use react-toastify for notifications
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.reason) {
-      pushToast({ type: 'warning', title: 'Missing fields', message: 'Please fill all required fields.' });
+      toast.warn('Please fill all required fields.', { position: 'bottom-right' });
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      pushToast({ type: 'warning', title: 'Invalid email', message: 'Please enter a valid email address.' });
+      toast.warn('Please enter a valid email address.', { position: 'bottom-right' });
       return;
     }
 
@@ -66,17 +57,17 @@ const Contact = () => {
 
       if (!res.ok) {
         console.error('/api/contact failed', data);
-        pushToast({ type: 'error', title: 'Send failed', message: data.error || 'Server error' });
+        toast.error(data.error || 'Server error', { position: 'bottom-right' });
         setSending(false);
         return;
       }
 
-      pushToast({ type: 'success', title: 'Message sent', message: 'Thanks — I will get back to you soon.' });
+      toast.success('Thanks — I will get back to you soon.', { position: 'bottom-right' });
       setFormData({ firstName: '', lastName: '', mobile: '', email: '', reason: '' });
       setSending(false);
     } catch (err) {
       console.error('Contact submit error', err);
-      pushToast({ type: 'error', title: 'Network error', message: 'Could not send message. Try again later.' });
+      toast.error('Could not send message. Try again later.', { position: 'bottom-right' });
       setSending(false);
     }
   };
@@ -148,20 +139,8 @@ const Contact = () => {
           </form>
         </div>
       </div>
-      {/* Toasts */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-        {toasts.map(t => (
-          <div key={t.id} className={`max-w-sm w-full px-4 py-3 rounded-lg shadow-lg text-sm text-left border ${t.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : t.type === 'error' ? 'bg-red-50 border-red-200 text-red-800' : 'bg-yellow-50 border-yellow-200 text-yellow-800'}`}>
-            <div className="flex justify-between items-start gap-2">
-              <div>
-                {t.title && <div className="font-semibold">{t.title}</div>}
-                {t.message && <div className="mt-1">{t.message}</div>}
-              </div>
-              <button className="text-xs opacity-60" onClick={() => setToasts(ts => ts.filter(x => x.id !== t.id))}>Close</button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* React-Toastify container */}
+      <ToastContainer position="bottom-right" autoClose={6000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </section>
   );
 };
