@@ -48,8 +48,8 @@ export default async function handler(req, res) {
   }
 }
 
-// Netlify-compatible handler
-exports.handler = async function (event, context) {
+// Netlify-compatible handler (ESM export)
+export const handler = async function (event, context) {
   const login = (event.queryStringParameters && event.queryStringParameters.login) || process.env.GITHUB_USER || 'bhagirathauti';
   try {
     const result = await handleRequest(login);
