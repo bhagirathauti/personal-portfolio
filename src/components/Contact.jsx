@@ -29,11 +29,21 @@ const Contact = () => {
 
     // basic validation
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.reason) {
-      toast.warn('Please fill all required fields.', { position: 'bottom-right' });
+      if (typeof toast !== 'undefined' && typeof toast.warn === 'function') {
+        toast.warn('Please fill all required fields.', { position: 'bottom-right' });
+      } else {
+        console.warn('react-toastify missing — falling back to alert for missing fields');
+        alert('Please fill all required fields.');
+      }
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      toast.warn('Please enter a valid email address.', { position: 'bottom-right' });
+      if (typeof toast !== 'undefined' && typeof toast.warn === 'function') {
+        toast.warn('Please enter a valid email address.', { position: 'bottom-right' });
+      } else {
+        console.warn('react-toastify missing — falling back to alert for invalid email');
+        alert('Please enter a valid email address.');
+      }
       return;
     }
 
@@ -57,17 +67,32 @@ const Contact = () => {
 
       if (!res.ok) {
         console.error('/api/contact failed', data);
-        toast.error(data.error || 'Server error', { position: 'bottom-right' });
+        if (typeof toast !== 'undefined' && typeof toast.error === 'function') {
+          toast.error(data.error || 'Server error', { position: 'bottom-right' });
+        } else {
+          console.warn('react-toastify missing — falling back to alert for server error');
+          alert(data.error || 'Server error');
+        }
         setSending(false);
         return;
       }
 
-      toast.success('Thanks — I will get back to you soon.', { position: 'bottom-right' });
+      if (typeof toast !== 'undefined' && typeof toast.success === 'function') {
+        toast.success('Thanks — I will get back to you soon.', { position: 'bottom-right' });
+      } else {
+        console.warn('react-toastify missing — falling back to alert for success');
+        alert('Thanks — I will get back to you soon.');
+      }
       setFormData({ firstName: '', lastName: '', mobile: '', email: '', reason: '' });
       setSending(false);
     } catch (err) {
       console.error('Contact submit error', err);
-      toast.error('Could not send message. Try again later.', { position: 'bottom-right' });
+      if (typeof toast !== 'undefined' && typeof toast.error === 'function') {
+        toast.error('Could not send message. Try again later.', { position: 'bottom-right' });
+      } else {
+        console.warn('react-toastify missing — falling back to alert for network error');
+        alert('Could not send message. Try again later.');
+      }
       setSending(false);
     }
   };
