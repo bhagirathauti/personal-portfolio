@@ -86,7 +86,7 @@ const Contact = () => {
         <div className="relative transition-all duration-300 backdrop-blur-sm bg-transparent dark:bg-transparent border-[2px] border-blue-500/10 p-3 sm:p-6 rounded-xl hover:shadow-xl hover:shadow-blue-500/10 group overflow-hidden">
           <div className="absolute -right-12 -top-12 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-all duration-300" />
           <div className="absolute -left-16 -bottom-16 w-28 h-28 rounded-full bg-blue-500/5 group-hover:bg-blue-500/10 transition-all duration-500" />
-          <form ref={form} onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-lg space-y-6">
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-lg space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
