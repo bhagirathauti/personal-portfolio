@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChevronDown, Github, Linkedin, Instagram, Code } from "lucide-react";
+import { ChevronDown, Github, Linkedin, Instagram, Code, Download } from "lucide-react";
 
 const About = () => {
     const [scrollY, setScrollY] = useState(0);
@@ -61,6 +61,7 @@ const About = () => {
                                 rel="noopener noreferrer"
                                 aria-label="LeetCode"
                                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                title="leetcode profile"
                             >
                                 <Code size={30} />
                             </a>
@@ -71,6 +72,7 @@ const About = () => {
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
                                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                title="Instagram profile"
                             >
                                 <Instagram size={30} />
                             </a>
@@ -81,6 +83,7 @@ const About = () => {
                                 rel="noopener noreferrer"
                                 aria-label="LinkedIn"
                                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                title="LinkedIn profile"
                             >
                                 <Linkedin size={30} />
                             </a>
@@ -91,8 +94,20 @@ const About = () => {
                                 rel="noopener noreferrer"
                                 aria-label="GitHub"
                                 className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                title="GitHub profile"
                             >
                                 <Github size={30} />
+                            </a>
+
+                            {/* Resume download icon */}
+                            <a
+                                href="/BhagirathAuti_resume.pdf"
+                                download
+                                aria-label="Download resume"
+                                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                title="Download Resume"
+                            >
+                                <Download size={30} />
                             </a>
                         </div>
                         <a href="#contact">
