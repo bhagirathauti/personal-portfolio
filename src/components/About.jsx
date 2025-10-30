@@ -110,7 +110,7 @@ const About = () => {
                                 <Download size={30} />
                             </a>
                         </div>
-                        <a href="#contact">
+                        <a href="#projects">
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-blue-500/40 flex items-center gap-2"
                             >

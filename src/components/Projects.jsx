@@ -41,16 +41,17 @@ const Projects = () => {
           {projects.map((p) => (
             <article
               key={p.id}
-              className="relative bg-white dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 border-[2px] border-blue-500/10 p-3 sm:p-6 rounded-xl hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 group overflow-hidden"
+              className="relative bg-white dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 border-[2px] border-blue-500/10 p-3 sm:p-6 rounded-xl hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 group overflow-hidden flex flex-col"
             >
-              <div className="h-40 w-full overflow-hidden rounded-t-lg">
+              <div className="h-40 w-full overflow-hidden rounded-t-lg bg-gray-100 dark:bg-slate-800">
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
               </div>
-              <div className="pt-4">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{p.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-cyan-100 mb-3">{p.short}</p>
 
-                <div className="flex flex-wrap mb-4">
+              <div className="flex-1 pt-4 pb-12">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2 line-clamp-1">{p.name}</h3>
+                <p className="text-sm text-gray-600 dark:text-cyan-100 mb-3 max-h-12 overflow-hidden text-ellipsis">{p.short}</p>
+
+                <div className="flex flex-wrap mb-4 gap-2">
                   {p.tech.map((t) => (
                     <span
                       key={t}
@@ -61,19 +62,21 @@ const Projects = () => {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <a
-                    href={p.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500 text-white text-sm hover:bg-blue-400 transition-colors"
-                  >
-                    Visit
-                  </a>
-                </div>
+                {/* Decorative accents - hide on small screens */}
+                <div className="hidden sm:block absolute -right-12 -top-12 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-all duration-300" />
+                <div className="hidden sm:block absolute -left-16 -bottom-16 w-28 h-28 rounded-full bg-blue-500/5 group-hover:bg-blue-500/10 transition-all duration-500" />
+              </div>
 
-                <div className="absolute -right-12 -top-12 w-20 h-20 rounded-full bg-blue-500/10 group-hover:bg-blue-500/20 transition-all duration-300" />
-                <div className="absolute -left-16 -bottom-16 w-28 h-28 rounded-full bg-blue-500/5 group-hover:bg-blue-500/10 transition-all duration-500" />
+              {/* Bottom-left action area */}
+              <div className="absolute left-4 bottom-4">
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500 text-white text-sm hover:bg-blue-400 transition-colors"
+                >
+                  Visit
+                </a>
               </div>
             </article>
           ))}
