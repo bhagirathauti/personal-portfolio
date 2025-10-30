@@ -47,7 +47,7 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="min-h-screen py-24 px-4 relative overflow-hidden bg-white dark:bg-transparent transition-colors duration-300">
+    <section id="experience" className="min-h-0 py-16 px-4 relative overflow-hidden bg-white dark:bg-transparent transition-colors duration-300">
       <div className="container mx-auto relative z-10">
         {/* Section Title */}
         <div className="mb-16 text-center">
@@ -64,7 +64,7 @@ const Experience = () => {
           {/* <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 via-blue-500 to-blue-600 transform -translate-x-1/2 md:rotate-12 md:h-full"></div> */}
           
           {/* Experience cards */}
-          <div className="relative z-10 space-y-24">
+          <div className="relative z-10 space-y-12">
             {experiences.map((exp, index) => (
               <div 
                 key={index} 
@@ -74,19 +74,19 @@ const Experience = () => {
                 style={{ transitionDelay: `${index * 300}ms` }}
               >
                 {/* Timeline Node */}
-                <div className="flex flex-row md:flex-col items-center relative mb-6 md:mb-0">
+                <div className="flex flex-row md:flex-col items-center relative mb-4 md:mb-0">
                   <div className="w-16 h-16 rounded-full bg-blue-500 shadow-lg shadow-blue-500/30 flex items-center justify-center text-white text-xl font-bold mr-6 md:mr-0 md:mb-4 z-10">
                     {index + 1}
                   </div>
                   <div className="hidden md:block w-px h-16 bg-blue-400/50 absolute top-16 left-1/2 transform -translate-x-1/2"></div>
-                  <div className="text-blue-300 font-medium whitespace-nowrap">{exp.period}</div>
+                  <div className="text-blue-300 font-medium whitespace-normal text-sm mt-2 md:mt-0">{exp.period}</div>
                 </div>
                 
                 {/* Content card - position alternating on desktop */}
-                <div className={`bg-gray-50 dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm shadow-md rounded-2xl p-8 shadow-xl border-[2px] border-blue-500/10 ml-22 md:ml-0 md:w-5/6 ${
+                <div className={`relative w-full bg-gray-50 dark:bg-transparent hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all duration-300 backdrop-blur-sm shadow-md rounded-2xl p-6 sm:p-8 shadow-xl border-[2px] border-blue-500/10 ${
                   index % 2 === 0 
-                    ? "md:ml-auto md:mr-16" 
-                    : "md:ml-16"
+                    ? "md:ml-auto md:mr-12 md:w-8/12" 
+                    : "md:ml-12 md:w-8/12"
                 }`}>
                   {/* Company and role */}
                   <div className="flex flex-col mb-4">
@@ -113,7 +113,7 @@ const Experience = () => {
                   </div>
                   
                   {/* Decorative elements */}
-                  <div className={`absolute ${
+                  <div className={`hidden sm:block absolute ${
                     index % 2 === 0 
                       ? "left-0 bottom-0 rounded-bl-2xl" 
                       : "right-0 bottom-0 rounded-br-2xl"

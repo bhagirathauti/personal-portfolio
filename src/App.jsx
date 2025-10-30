@@ -11,6 +11,7 @@ import Stats from './components/Stats'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ScrollToTopButton from './components/ScrollToTop'
+import SystemCard from './components/SystemCard'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Footer/>
         <ScrollToTopButton/>
       </div>
+      <SystemCard />
     </ToastProvider>
   )
 }
